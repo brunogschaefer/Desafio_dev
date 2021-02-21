@@ -16,11 +16,10 @@ public class EventRoom {
 	private Long id;
 	private String name;
 	private Integer capacity;
-	Set<Person> person = new HashSet<>();
+	Set<Participant> participants = new HashSet<>();
 	
 	public EventRoom() {}
 	public EventRoom(Long id, String name, Integer capacity) {
-		super();
 		this.id = id;
 		this.name = name;
 		this.capacity = capacity;
@@ -44,8 +43,8 @@ public class EventRoom {
 	public void setCapacity(Integer capacity) {
 		this.capacity = capacity;
 	}
-	public Set<Person> getPerson() {
-		return person;
+	public Set<Participant> getParticipants() {
+		return participants;
 	}
 	
 	@Override

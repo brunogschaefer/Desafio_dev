@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import com.proway.godev.entities.enums.StagesEnum;
 
 @Entity
-public class Person {
+public class Participant {
 	
 	@Id
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
@@ -17,10 +17,9 @@ public class Person {
 	private String lastName;
 	private StagesEnum stage;
 	
-	public Person () {
+	public Participant () {
 	}
-	public Person(Long id, String firstName, String lastName, StagesEnum stage) {
-		super();
+	public Participant(Long id, String firstName, String lastName, StagesEnum stage) {
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -67,7 +66,7 @@ public class Person {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Person other = (Person) obj;
+		Participant other = (Participant) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;

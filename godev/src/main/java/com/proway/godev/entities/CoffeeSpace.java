@@ -18,7 +18,6 @@ public class CoffeeSpace {
 	
 	public CoffeeSpace () {}
 	public CoffeeSpace(Long id, String name, CoffeeSpaceEnum space) {
-		super();
 		this.id = id;
 		this.name = name;
 		this.space = space;
