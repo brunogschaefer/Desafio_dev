@@ -4,17 +4,23 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import com.proway.godev.entities.enums.StagesEnum;
 
 @Entity
+@Table (name = "tb_participant")
 public class Participant {
 	
 	@Id
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
 	private Long id;
+	@NotNull
 	private String firstName;
+	@NotNull
 	private String lastName;
+	@NotNull
 	private StagesEnum stage;
 	
 	public Participant () {

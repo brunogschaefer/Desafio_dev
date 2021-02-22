@@ -13,5 +13,7 @@ public interface ParticipantRepository extends JpaRepository <Participant, Long>
 	Participant findByFirstName(String firstName);
 	
 	boolean existsParticipantByFirstName(String firstName);
+	
+	boolean existsParticipantByFirstNameAndLastName(String firstName, String lastName);
 
 }
