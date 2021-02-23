@@ -1,6 +1,5 @@
 package com.proway.godev.entities;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Entity;
@@ -9,6 +8,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+
+import com.proway.godev.entities.utils.LimitedHashSet;
 
 @Entity
 @Table (name = "tb_eventroom")
@@ -21,7 +22,7 @@ public class EventRoom {
 	private String name;
 	@NotNull
 	private Integer capacity;
-	Set<Participant> participants = new HashSet<>();
+	Set<Participant> participants = new LimitedHashSet<>(capacity);
 	
 	public EventRoom() {}
 	public EventRoom(Long id, String name, Integer capacity) {
@@ -50,6 +51,9 @@ public class EventRoom {
 	}
 	public Set<Participant> getParticipants() {
 		return participants;
+	}
+	public void addParticipants(Participant p) {
+		participants.add(p);
 	}
 	
 	@Override
