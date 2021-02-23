@@ -1,4 +1,4 @@
-package com.proway.godev.entities.utils;
+package com.proway.godev.utils;
 
 import java.util.HashSet;
 

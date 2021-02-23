@@ -1,9 +1,10 @@
-package com.proway.godev.entities.utils;
+package com.proway.godev.utils;
 
 import java.util.LinkedList;
 import java.util.Queue;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.proway.godev.entities.EventRoom;
 import com.proway.godev.entities.Participant;
@@ -12,10 +13,9 @@ import com.proway.godev.repository.EventRoomRepository;
 
 public class ParticipantsDistributionUtil {
 	
-	@Autowired
+	
 	private EventRoom eventRoom;
 	
-	@Autowired
 	private EventRoomRepository repo;
 	
 	Queue<Participant> queueOfParticipants = new LinkedList<>();

@@ -14,7 +14,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import com.proway.godev.entities.utils.LimitedHashSet;
+import com.proway.godev.utils.LimitedHashSet;
 
 @Entity
 @Table (name = "tb_eventroom")
@@ -26,7 +26,7 @@ public class EventRoom {
 	@NotNull
 	private String name;
 	@NotNull
-	private Integer capacity;
+	private Integer capacity = 0;
 	
 	@OneToMany (fetch = FetchType.LAZY,
 				cascade = CascadeType.PERSIST) 

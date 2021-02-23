@@ -1,7 +1,7 @@
 package com.proway.godev.dto;
 
 import com.proway.godev.entities.Participant;
-import com.proway.godev.entities.enums.StagesEnum;
+import com.proway.godev.enums.StagesEnum;
 
 public class ParticipantDTO {
 	

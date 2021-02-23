@@ -15,6 +15,12 @@ public class EventRoomServices {
 	private EventRoomRepository repo;
 	
 	@Transactional
+	public EventRoomDTO findByName(EventRoomDTO dto) {
+		EventRoom eventRoom = repo.findByName(dto.getName());
+		return new EventRoomDTO(eventRoom);
+	}
+	
+	@Transactional
 	public EventRoomDTO insert(EventRoomDTO dto) {
 		EventRoom eventRoom = new EventRoom (null, dto.getName(), dto.getCapacity());
 		eventRoom = repo.save(eventRoom);

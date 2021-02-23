@@ -7,7 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import com.proway.godev.entities.enums.StagesEnum;
+import com.proway.godev.enums.StagesEnum;
 
 @Entity
 @Table (name = "tb_participant")
@@ -20,7 +20,7 @@ public class Participant {
 	private String firstName;
 	@NotNull
 	private String lastName;
-	@NotNull
+	//@NotNull
 	private StagesEnum stage;
 	
 	public Participant () {

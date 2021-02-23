@@ -6,10 +6,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.proway.godev.dto.ParticipantDTO;
 import com.proway.godev.entities.Participant;
-import com.proway.godev.entities.utils.ParticipantsDistributionUtil;
 import com.proway.godev.exceptions.EventRoomDoesntExistException;
 import com.proway.godev.exceptions.ParticipantAlreadyExistException;
 import com.proway.godev.repository.ParticipantRepository;
+import com.proway.godev.utils.ParticipantsDistributionUtil;
 
 @Service
 public class ParticipantServices {
@@ -17,8 +17,13 @@ public class ParticipantServices {
 	@Autowired
 	private ParticipantRepository repo;
 	
-	@Autowired
 	private ParticipantsDistributionUtil distribution;
+	
+	@Transactional
+	public ParticipantDTO findByName(ParticipantDTO dto) {
+		Participant participant = repo.findByFirstName(dto.getFirstName());
+		return new ParticipantDTO(participant);
+	}
 	
 	@Transactional
 	public ParticipantDTO insert (ParticipantDTO dto) throws Exception {
@@ -42,4 +47,5 @@ public class ParticipantServices {
 			throw new EventRoomDoesntExistException("Nenhuma sala de evento encontrada. Por favor, registre uma nova sala.");
 		}	
 	}
+
 }

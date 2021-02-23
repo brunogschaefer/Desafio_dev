@@ -7,7 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import com.proway.godev.entities.enums.CoffeeSpaceEnum;
+import com.proway.godev.enums.CoffeeSpaceEnum;
 
 @Entity
 @Table (name = "tb_coffeespace")

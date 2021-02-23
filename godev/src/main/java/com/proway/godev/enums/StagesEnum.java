@@ -1,4 +1,4 @@
-package com.proway.godev.entities.enums;
+package com.proway.godev.enums;
 
 public enum StagesEnum {
 	

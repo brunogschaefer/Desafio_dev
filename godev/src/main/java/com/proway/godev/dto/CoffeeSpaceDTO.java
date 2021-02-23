@@ -1,7 +1,7 @@
 package com.proway.godev.dto;
 
 import com.proway.godev.entities.CoffeeSpace;
-import com.proway.godev.entities.enums.CoffeeSpaceEnum;
+import com.proway.godev.enums.CoffeeSpaceEnum;
 
 public class CoffeeSpaceDTO {
 	
