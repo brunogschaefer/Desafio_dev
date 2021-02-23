@@ -20,7 +20,4 @@ public class EventRoomServices {
 		eventRoom = repo.save(eventRoom);
 		return new EventRoomDTO(eventRoom);
 	}
-	
-	
-
 }

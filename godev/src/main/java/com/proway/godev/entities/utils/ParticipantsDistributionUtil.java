@@ -18,8 +18,9 @@ public class ParticipantsDistributionUtil {
 	@Autowired
 	private EventRoomRepository repo;
 	
+	Queue<Participant> queueOfParticipants = new LinkedList<>();
+	
 	public void ParticipantsDistribution (Participant participant) throws EventRoomDoesntExistException {
-		Queue<Participant> queueOfParticipants = new LinkedList<>();
 		queueOfParticipants.add(participant);
 		Integer numberOfRooms = (int) repo.count();
 		while (!queueOfParticipants.isEmpty()) {
