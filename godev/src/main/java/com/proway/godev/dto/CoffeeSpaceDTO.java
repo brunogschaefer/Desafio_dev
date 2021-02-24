@@ -1,24 +1,27 @@
 package com.proway.godev.dto;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import com.proway.godev.entities.CoffeeSpace;
-import com.proway.godev.enums.CoffeeSpaceEnum;
 
 public class CoffeeSpaceDTO {
 	
 	private Long id;
 	private String name;
-	private CoffeeSpaceEnum space;
+	List<ParticipantDTO> participants = new ArrayList<>();
 	
 	public CoffeeSpaceDTO () {}
-	public CoffeeSpaceDTO(Long id, String name, CoffeeSpaceEnum space) {
+	public CoffeeSpaceDTO(Long id, String name) {
 		this.id = id;
 		this.name = name;
-		this.space = space;
 	}
 	public CoffeeSpaceDTO(CoffeeSpace entity) {
 		id = entity.getId();
 		name = entity.getName();
-		space = entity.getSpace();
+		participants = entity.getParticipants().stream().
+				map(x -> new ParticipantDTO(x)).collect(Collectors.toList());
 	}
 	
 	public Long getId() {
@@ -33,10 +36,7 @@ public class CoffeeSpaceDTO {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public CoffeeSpaceEnum getSpace() {
-		return space;
-	}
-	public void setSpace(CoffeeSpaceEnum space) {
-		this.space = space;
+	public List<ParticipantDTO> getParticipants() {
+		return participants;
 	}
 }

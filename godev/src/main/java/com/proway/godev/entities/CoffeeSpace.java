@@ -1,13 +1,19 @@
 package com.proway.godev.entities;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-
-import com.proway.godev.enums.CoffeeSpaceEnum;
 
 @Entity
 @Table (name = "tb_coffeespace")
@@ -18,13 +24,18 @@ public class CoffeeSpace {
 	private Long id;
 	@NotNull
 	private String name;
-	private CoffeeSpaceEnum space;
+	
+	@OneToMany (fetch = FetchType.LAZY, 
+				cascade = CascadeType.PERSIST)
+	@JoinTable (name = "tb_coffeespace_participants", 
+				joinColumns = @JoinColumn(name = "coffeespace_id"), 
+				inverseJoinColumns = @JoinColumn(name = "participant_id"))
+	Set<Participant> participants = new HashSet<>();
 	
 	public CoffeeSpace () {}
-	public CoffeeSpace(Long id, String name, CoffeeSpaceEnum space) {
+	public CoffeeSpace(Long id, String name) {
 		this.id = id;
 		this.name = name;
-		this.space = space;
 	}
 	
 	public Long getId() {
@@ -39,11 +50,11 @@ public class CoffeeSpace {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public CoffeeSpaceEnum getSpace() {
-		return space;
+	public Set<Participant> getParticipants() {
+		return participants;
 	}
-	public void setSpace(CoffeeSpaceEnum space) {
-		this.space = space;
+	public void addParticipants(Participant p) {
+		participants.add(p);
 	}
 	
 	@Override
