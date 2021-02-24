@@ -15,5 +15,8 @@ public interface ParticipantRepository extends JpaRepository <Participant, Long>
 	boolean existsParticipantByFirstName(String firstName);
 	
 	boolean existsParticipantByFirstNameAndLastName(String firstName, String lastName);
+	
+	@Query ("SELECT DISTINCT obj FROM Participant obj WHERE obj.firstName = ?1 AND obj.lastName = ?2")
+	Participant findByFullName(String firstName, String lastName);
 
 }

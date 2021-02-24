@@ -1,5 +1,6 @@
 package com.proway.godev.entities;
 
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -14,8 +15,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import com.proway.godev.utils.LimitedHashSet;
-
 @Entity
 @Table (name = "tb_eventroom")
 public class EventRoom {
@@ -26,14 +25,14 @@ public class EventRoom {
 	@NotNull
 	private String name;
 	@NotNull
-	private Integer capacity = 0;
+	private Integer capacity;
 	
 	@OneToMany (fetch = FetchType.LAZY,
 				cascade = CascadeType.PERSIST) 
 	@JoinTable (name = "tb_eventroom_participants",
 				joinColumns = @JoinColumn(name = "eventroom_id"),
 				inverseJoinColumns = @JoinColumn(name = "participant_id"))
-	Set<Participant> participants = new LimitedHashSet<>(capacity);
+	Set<Participant> participants = new LinkedHashSet<>();
 	
 	public EventRoom() {}
 	public EventRoom(Long id, String name, Integer capacity) {
