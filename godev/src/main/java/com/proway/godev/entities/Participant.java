@@ -1,11 +1,13 @@
 package com.proway.godev.entities;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 
 import com.proway.godev.enums.StagesEnum;
 
@@ -16,12 +18,18 @@ public class Participant {
 	@Id
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
 	private Long id;
-	@NotNull
 	private String firstName;
-	@NotNull
 	private String lastName;
-	//@NotNull
 	private StagesEnum stage;
+	
+	
+	@ManyToOne (fetch = FetchType.LAZY)
+	@JoinColumn(name = "eventroom_id")
+	private EventRoom room;
+	
+	@ManyToOne (fetch = FetchType.LAZY)
+	@JoinColumn(name = "coffeespace_id")
+	private CoffeeSpace space;
 	
 	public Participant () {
 	}
@@ -55,6 +63,18 @@ public class Participant {
 	}
 	public void setStage(StagesEnum stage) {
 		this.stage = stage;
+	}
+	public EventRoom getRoom() {
+		return room;
+	}
+	public CoffeeSpace getSpace() {
+		return space;
+	}
+	public void setRoom(EventRoom room) {
+		this.room = room;
+	}
+	public void setSpace(CoffeeSpace space) {
+		this.space = space;
 	}
 	
 	@Override

@@ -11,5 +11,8 @@ public interface EventRoomRepository extends JpaRepository <EventRoom, Long> {
 
 	@Query ("SELECT DISTINCT obj FROM EventRoom obj WHERE obj.name = ?1")
 	EventRoom findByName(String name);
-
+	
+	@Query ("SELECT DISTINCT obj FROM EventRoom obj WHERE obj.id = ?1")
+	EventRoom findByLongId(Long id);
+	
 }

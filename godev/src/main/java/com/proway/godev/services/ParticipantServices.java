@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.proway.godev.dto.ParticipantDTO;
 import com.proway.godev.entities.Participant;
+import com.proway.godev.enums.StagesEnum;
 import com.proway.godev.exceptions.ParticipantAlreadyExistException;
 import com.proway.godev.repository.CoffeeSpaceRepository;
 import com.proway.godev.repository.EventRoomRepository;
@@ -17,28 +18,25 @@ public class ParticipantServices {
 	
 	@Autowired
 	private ParticipantRepository pRepo;
-	
 	@Autowired
 	private ParticipantsDistributionUtil distribution;
-	
 	@Autowired
 	private EventRoomRepository erRepo;
-	
 	@Autowired
 	private CoffeeSpaceRepository csRepo;
 	
-	@Transactional
+	@Transactional (readOnly = true)
 	public ParticipantDTO findByName(ParticipantDTO dto) {
-		Participant participant = pRepo.findByFirstName(dto.getFirstName());
+		Participant participant = pRepo.findByFullNameWithRoomAndSpace(dto.getFirstName(), dto.getLastName());
 		return new ParticipantDTO(participant);
 	}
 	
 	@Transactional
-	public ParticipantDTO insert (ParticipantDTO dto) throws ParticipantAlreadyExistException {
+	public ParticipantDTO insert (ParticipantDTO dto) throws ParticipantAlreadyExistException, NullPointerException {
 		existsByFullName(dto.getFirstName(), dto.getLastName());
 		noEventRoomRegistered(erRepo.count(), csRepo.count());
-		Participant participant = new Participant(null, dto.getFirstName(), dto.getLastName(), dto.getStage());	
-		participant = pRepo.save(participant);
+		Participant participant = new Participant(null, dto.getFirstName(), dto.getLastName(), StagesEnum.STAGE_A);	
+		pRepo.save(participant);
 		distribution.distributeOverEventRoom(participant);
 		distribution.distributeOverCoffeeSpace(participant);
 		return new ParticipantDTO(participant);

@@ -1,5 +1,6 @@
 package com.proway.godev.dto;
 
+import com.proway.godev.entities.CoffeeSpace;
 import com.proway.godev.entities.Participant;
 import com.proway.godev.enums.StagesEnum;
 
@@ -10,9 +11,11 @@ public class ParticipantDTO {
 	private String lastName;
 	private StagesEnum stage;
 	
+	private EventRoomDTO room;
+	private CoffeeSpace space;
+	
 	public ParticipantDTO() {}
 	public ParticipantDTO(Long id, String firstName, String lastName, StagesEnum stage) {
-		super();
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -49,4 +52,11 @@ public class ParticipantDTO {
 	public void setStage(StagesEnum stage) {
 		this.stage = stage;
 	}
+	public EventRoomDTO getRoom() {
+		return room;
+	}
+	public CoffeeSpace getSpace() {
+		return space;
+	}
+	
 }

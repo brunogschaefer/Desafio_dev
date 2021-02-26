@@ -9,8 +9,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -27,11 +25,10 @@ public class EventRoom {
 	@NotNull
 	private Integer capacity;
 	
-	@OneToMany (fetch = FetchType.LAZY,
-				cascade = CascadeType.PERSIST) 
-	@JoinTable (name = "tb_eventroom_participants",
-				joinColumns = @JoinColumn(name = "eventroom_id"),
-				inverseJoinColumns = @JoinColumn(name = "participant_id"))
+	@OneToMany (cascade = CascadeType.PERSIST,
+				fetch = FetchType.LAZY,
+				mappedBy = "room",
+				orphanRemoval = true) 
 	Set<Participant> participants = new LinkedHashSet<>();
 	
 	public EventRoom() {}

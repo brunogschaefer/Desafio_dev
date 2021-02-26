@@ -1,6 +1,7 @@
 package com.proway.godev.services;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.when;
 
 import java.util.stream.Stream;
 
@@ -14,11 +15,13 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.TestPropertySource;
 
+import com.proway.godev.dto.CoffeeSpaceDTO;
 import com.proway.godev.dto.EventRoomDTO;
 import com.proway.godev.dto.ParticipantDTO;
-import com.proway.godev.entities.EventRoom;
 import com.proway.godev.entities.Participant;
 import com.proway.godev.enums.StagesEnum;
+import com.proway.godev.exceptions.MaxLimitReachedException;
+import com.proway.godev.repository.CoffeeSpaceRepository;
 import com.proway.godev.repository.EventRoomRepository;
 import com.proway.godev.repository.ParticipantRepository;
 
@@ -28,53 +31,41 @@ import com.proway.godev.repository.ParticipantRepository;
 public class ParticipantServicesTest {
 	
 	@Mock
-	private ParticipantRepository partRepo;
-	
+	private ParticipantRepository partRepo;	
 	@Mock
-	private EventRoom eventRoom;	
-	
+	private Participant part;
 	@InjectMocks
-	private ParticipantServices partService;
-	
+	private ParticipantServices partService;	
 	@Mock
-	private EventRoomRepository eventRoomRepo;
-	
+	private EventRoomRepository erRepo;	
 	@InjectMocks
-	private EventRoomServices eventRoomService;
+	private EventRoomServices erService;
+	@Mock
+	private CoffeeSpaceRepository csRepo;	
+	@InjectMocks
+	private CoffeeSpaceServices csService;
 	
 	/*@ParameterizedTest
-	@CsvSource({"Amanda, Arrabal, STAGE_A",
-				"Joana, Suzana, STAGE_B",})
-	void shouldItVerifyIfParticipitansArePersistedWithoutEventRoom(String firstName, String lastName, StagesEnum stage) {
-		//given
-		ParticipantDTO expectedDTO = new ParticipantDTO(null, firstName, lastName, stage);
-		//then
-		assertThrows(NullPointerException.class, () -> partService.insert(expectedDTO));
-	}*/
-	
-	@ParameterizedTest
-	@MethodSource("provideDefaultParameters")
-	void shouldItVerifyIfParticipitansArePersistedWithEventRoom(Long id, String eventName, int eventQuantity, String firstName, String lastName, StagesEnum stage) throws Exception {
-		//given
-		EventRoomDTO createRoom = new EventRoomDTO (id, eventName, eventQuantity);
-		eventRoomService.insert(createRoom);
-		ParticipantDTO expectedDTO = new ParticipantDTO(null, firstName, lastName, stage);
-		partService.insert(expectedDTO);
-		Participant expectedSaved = partRepo.findByFullName(expectedDTO.getFirstName(), expectedDTO.getLastName());
-		//when
-		//when(partRepo.findByFullName(expectedDTO.getFirstName(), expectedDTO.getLastName())).thenReturn(expectedSaved);
-		//when(partRepo.save(expectedSaved)).thenReturn(expectedSaved);
-		//then
-		assertThat(expectedSaved).isNotNull();
-	}
+	@MethodSource ("provideDefaultParameters")
+    void whenValidParticipantNameIsGivenThenReturnAParticipantWithRoomAndSpace(Long id, String firstName, String lastName, StagesEnum stage) throws MaxLimitReachedException {
+        // given
+        ParticipantDTO expectedParticipantDTO = new ParticipantDTO(id, firstName, lastName, StagesEnum.STAGE_A);
+        Participant expectedFoundParticipant = new Participant(id, firstName, lastName, StagesEnum.STAGE_A);
+        EventRoomDTO room = new EventRoomDTO(1L, "salaUm", 2);
+        CoffeeSpaceDTO space = new CoffeeSpaceDTO(1L, "espaçoUm");
+
+        // when
+        when(partService.findByName(expectedParticipantDTO)).thenReturn(expectedParticipantDTO);
+        when(erService.insert(room)).thenReturn(room);
+        when(csService.insert(space)).thenReturn(space);
+
+        // then
+        ParticipantDTO foundParticipantDTO = partService.findByName(expectedParticipantDTO);
+        assertThat(foundParticipantDTO).isEqualTo(expectedFoundParticipant);
+    }
 	
 	private static Stream<Arguments> provideDefaultParameters () {
-		return Stream.of(Arguments.of(1L, "SalaUm", 10, "Amanda", "Carlota", "STAGE_A"),
-				Arguments.of(2L, "SalaDois", 10, "Sara", "Seda", "STAGE_A"),
-				Arguments.of(null, null, "Suzana", "Sussa", "STAGE_A"),
-				Arguments.of(null, null, "Adam", "Jalapao", "STAGE_B"),
-				Arguments.of(null, null, "Johann", "Corolla", "STAGE_B"));
-	}
-
-
+		return Stream.of(Arguments.of(1L, "NomeUm", "SobreNomeUm", "STAGE_A"),
+				Arguments.of(2L, "NomeDois", "SobreNomeDois", "STAGE_A"));
+	}*/
 }

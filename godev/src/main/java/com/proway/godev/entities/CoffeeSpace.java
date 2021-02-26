@@ -1,6 +1,6 @@
 package com.proway.godev.entities;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -9,8 +9,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -25,12 +23,11 @@ public class CoffeeSpace {
 	@NotNull
 	private String name;
 	
-	@OneToMany (fetch = FetchType.LAZY, 
-				cascade = CascadeType.PERSIST)
-	@JoinTable (name = "tb_coffeespace_participants", 
-				joinColumns = @JoinColumn(name = "coffeespace_id"), 
-				inverseJoinColumns = @JoinColumn(name = "participant_id"))
-	Set<Participant> participants = new HashSet<>();
+	@OneToMany (cascade = CascadeType.PERSIST,
+				fetch = FetchType.LAZY,
+				mappedBy = "space",
+				orphanRemoval = true)	
+	Set<Participant> participants = new LinkedHashSet<>();
 	
 	public CoffeeSpace () {}
 	public CoffeeSpace(Long id, String name) {

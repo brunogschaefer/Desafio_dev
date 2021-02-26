@@ -16,16 +16,17 @@ public class CoffeeSpaceServices {
 	private CoffeeSpaceRepository repo;
 	
 	@Transactional
-	public CoffeeSpaceDTO insert (CoffeeSpaceDTO dto){
-		try {
-			maxLimitOfSpacesRegistered(repo.count());
-			CoffeeSpace coffeeSpace = new CoffeeSpace(null, dto.getName());
-			coffeeSpace = repo.save(coffeeSpace);
-			return new CoffeeSpaceDTO(coffeeSpace);
-		} catch (MaxLimitReachedException e) {
-			e.getMessage();
-		}
-		return dto;
+	public CoffeeSpaceDTO findByName(CoffeeSpaceDTO dto) {
+		CoffeeSpace CoffeeSpace = repo.findByName(dto.getName());
+		return new CoffeeSpaceDTO(CoffeeSpace);
+	}
+	
+	@Transactional
+	public CoffeeSpaceDTO insert (CoffeeSpaceDTO dto) throws MaxLimitReachedException{
+		maxLimitOfSpacesRegistered(repo.count());
+		CoffeeSpace coffeeSpace = new CoffeeSpace(null, dto.getName());
+		coffeeSpace = repo.save(coffeeSpace);
+		return new CoffeeSpaceDTO(coffeeSpace);
 	}
 	
 	public void maxLimitOfSpacesRegistered (Long amountOfSpaces) throws MaxLimitReachedException {

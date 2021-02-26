@@ -8,15 +8,17 @@ import com.proway.godev.entities.EventRoom;
 import com.proway.godev.entities.Participant;
 import com.proway.godev.repository.CoffeeSpaceRepository;
 import com.proway.godev.repository.EventRoomRepository;
+import com.proway.godev.repository.ParticipantRepository;
 
 @Component
 public class ParticipantsDistributionUtil {
 	
 	@Autowired
 	private EventRoomRepository erRepo;
-	
 	@Autowired
 	private CoffeeSpaceRepository csRepo;
+	@Autowired
+	private ParticipantRepository part;
 	
 	private long currentRoom = 0L;
 	private long currentSpace = 0L;
@@ -27,6 +29,8 @@ public class ParticipantsDistributionUtil {
 		EventRoom actual = erRepo.getOne(currentRoom + 1);
 		if (actual.getParticipants().size() < actual.getCapacity()) {
 			actual.addParticipants(participant);
+			participant.setRoom(actual);
+			part.save(participant);
 			erRepo.save(actual);
 		} 
 	}
@@ -34,8 +38,10 @@ public class ParticipantsDistributionUtil {
 	public void distributeOverCoffeeSpace (Participant participant) {
 		long numberOfSpaces = csRepo.count();
 		currentSpace = (currentSpace + 1) % numberOfSpaces;  
-		CoffeeSpace actual = csRepo.getOne(currentSpace + 1);
+		CoffeeSpace actual = csRepo.findByLongId(currentSpace + 1);
 		actual.addParticipants(participant);
+		participant.setSpace(actual);
+		part.save(participant);
 		csRepo.save(actual);
-	}	
+	}
 }
