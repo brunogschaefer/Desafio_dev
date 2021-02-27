@@ -26,22 +26,22 @@ public class ParticipantsDistributionUtil {
 	public void distributeOverEventRoom (Participant participant) {
 		long numberOfRooms = erRepo.count();
 		currentRoom = (currentRoom + 1) % numberOfRooms;  
-		EventRoom actual = erRepo.getOne(currentRoom + 1);
+		EventRoom actual = erRepo.findById(currentRoom + 1).get();
 		if (actual.getParticipants().size() < actual.getCapacity()) {
 			actual.addParticipants(participant);
 			participant.setRoom(actual);
 			part.save(participant);
-			erRepo.save(actual);
+			erRepo.save(actual);			
 		} 
 	}
 	
 	public void distributeOverCoffeeSpace (Participant participant) {
 		long numberOfSpaces = csRepo.count();
 		currentSpace = (currentSpace + 1) % numberOfSpaces;  
-		CoffeeSpace actual = csRepo.findByLongId(currentSpace + 1);
+		CoffeeSpace actual = csRepo.findById(currentSpace + 1).get();
 		actual.addParticipants(participant);
 		participant.setSpace(actual);
 		part.save(participant);
-		csRepo.save(actual);
+		csRepo.save(actual);		
 	}
 }

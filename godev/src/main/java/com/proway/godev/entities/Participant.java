@@ -1,5 +1,6 @@
 package com.proway.godev.entities;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -9,6 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.proway.godev.enums.StagesEnum;
 
 @Entity
@@ -23,21 +25,27 @@ public class Participant {
 	private StagesEnum stage;
 	
 	
-	@ManyToOne (fetch = FetchType.LAZY)
+	@ManyToOne (fetch = FetchType.EAGER,
+				cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "eventroom_id")
+	@JsonBackReference (value = "event_room")
 	private EventRoom room;
 	
-	@ManyToOne (fetch = FetchType.LAZY)
+	@ManyToOne (fetch = FetchType.EAGER,
+				cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "coffeespace_id")
+	@JsonBackReference (value = "coffee_space")
 	private CoffeeSpace space;
 	
 	public Participant () {
 	}
-	public Participant(Long id, String firstName, String lastName, StagesEnum stage) {
+	public Participant(Long id, String firstName, String lastName, StagesEnum stage, EventRoom room, CoffeeSpace space) {
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.stage = stage;
+		this.room = room;
+		this.space = space;
 	}
 	
 	public Long getId() {

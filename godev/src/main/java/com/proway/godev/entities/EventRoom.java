@@ -13,6 +13,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Table (name = "tb_eventroom")
 public class EventRoom {
@@ -29,6 +31,7 @@ public class EventRoom {
 				fetch = FetchType.LAZY,
 				mappedBy = "room",
 				orphanRemoval = true) 
+	@JsonManagedReference (value = "event_room")
 	Set<Participant> participants = new LinkedHashSet<>();
 	
 	public EventRoom() {}

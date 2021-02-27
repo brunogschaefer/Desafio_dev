@@ -13,6 +13,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Table (name = "tb_coffeespace")
 public class CoffeeSpace {
@@ -27,6 +29,7 @@ public class CoffeeSpace {
 				fetch = FetchType.LAZY,
 				mappedBy = "space",
 				orphanRemoval = true)	
+	@JsonManagedReference (value = "coffee_space")
 	Set<Participant> participants = new LinkedHashSet<>();
 	
 	public CoffeeSpace () {}
