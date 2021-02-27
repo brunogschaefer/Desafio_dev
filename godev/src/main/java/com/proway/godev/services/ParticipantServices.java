@@ -35,7 +35,6 @@ public class ParticipantServices {
 	@Transactional (readOnly = true)
 	public ParticipantDTO findByName(String firstName, String lastName) {
 		Participant participant = pRepo.findByFullNameWithRoomAndSpace(firstName, lastName);
-		//ReturnAssignedIdsUtil partUtil = pRepo.findByAssignedIds(dto.getFirstName(), dto.getLastName());
 		return new ParticipantDTO(participant);
 	}
 	
@@ -56,6 +55,12 @@ public class ParticipantServices {
 		return new ParticipantDTO(participant);
 	}
 	
+	@Transactional
+	public List<ParticipantDTO> setStage(boolean set) {
+		List<Participant> setStageList = setStage.setStage(set);
+		return setStageList.stream().map(e -> new ParticipantDTO(e)).collect(Collectors.toList());
+	}
+	
 	public void existsByFullName(String firstName, String lastName) throws ParticipantAlreadyExistException {
 		boolean itExists = pRepo.existsParticipantByFirstNameAndLastName(firstName, lastName);
 		if (itExists == true) {
@@ -67,10 +72,5 @@ public class ParticipantServices {
 		if (amountOfRooms == null || amountOfSpaces == null) {
 			throw new NullPointerException("Nenhuma sala de evento e/ou espaço de café encontrado. Por favor, registre uma nova sala.");
 		}	
-	}
-
-	public List<ParticipantDTO> setStage(boolean set) {
-		List<Participant> setStageList = setStage.setStage(set);
-		return setStageList.stream().map(e -> new ParticipantDTO(e)).collect(Collectors.toList());
 	}
 }
