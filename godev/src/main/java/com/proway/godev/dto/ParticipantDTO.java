@@ -16,11 +16,13 @@ public class ParticipantDTO {
 	private CoffeeSpace space;
 	
 	public ParticipantDTO() {}
-	public ParticipantDTO(Long id, String firstName, String lastName, StagesEnum stage) {
+	public ParticipantDTO(Long id, String firstName, String lastName, StagesEnum stage, EventRoom room, CoffeeSpace space) {
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.stage = stage;
+		this.room = room;
+		this.space = space;
 	}
 	public ParticipantDTO(Participant entity) {
 		id = entity.getId();

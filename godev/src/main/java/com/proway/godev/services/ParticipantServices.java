@@ -34,7 +34,7 @@ public class ParticipantServices {
 	
 	@Transactional (readOnly = true)
 	public ParticipantDTO findByName(String firstName, String lastName) {
-		Participant participant = pRepo.findByFullNameWithRoomAndSpace(firstName, lastName);
+		Participant participant = pRepo.findByFullName(firstName, lastName);
 		return new ParticipantDTO(participant);
 	}
 	

@@ -26,7 +26,7 @@ public class CoffeeSpace {
 	private String name;
 	
 	@OneToMany (cascade = CascadeType.PERSIST,
-				fetch = FetchType.LAZY,
+				fetch = FetchType.EAGER,
 				mappedBy = "space",
 				orphanRemoval = true)	
 	@JsonManagedReference (value = "coffee_space")

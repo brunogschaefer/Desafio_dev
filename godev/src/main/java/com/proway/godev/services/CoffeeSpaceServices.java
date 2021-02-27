@@ -1,5 +1,8 @@
 package com.proway.godev.services;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,9 +19,15 @@ public class CoffeeSpaceServices {
 	private CoffeeSpaceRepository repo;
 	
 	@Transactional
-	public CoffeeSpaceDTO findByName(CoffeeSpaceDTO dto) {
-		CoffeeSpace CoffeeSpace = repo.findByName(dto.getName());
+	public CoffeeSpaceDTO findByName(String name) {
+		CoffeeSpace CoffeeSpace = repo.findByName(name);
 		return new CoffeeSpaceDTO(CoffeeSpace);
+	}
+	
+	@Transactional
+	public List<CoffeeSpaceDTO> findAll() {
+		List<CoffeeSpace> list = repo.findAll();
+		return list.stream().map(e -> new CoffeeSpaceDTO(e)).collect(Collectors.toList());
 	}
 	
 	@Transactional

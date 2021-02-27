@@ -28,7 +28,7 @@ public class EventRoom {
 	private Integer capacity;
 	
 	@OneToMany (cascade = CascadeType.PERSIST,
-				fetch = FetchType.LAZY,
+				fetch = FetchType.EAGER,
 				mappedBy = "room",
 				orphanRemoval = true) 
 	@JsonManagedReference (value = "event_room")

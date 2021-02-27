@@ -3,6 +3,7 @@ package com.proway.godev.utils;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.proway.godev.entities.Participant;
 import com.proway.godev.enums.StagesEnum;
@@ -10,7 +11,7 @@ import com.proway.godev.repository.CoffeeSpaceRepository;
 import com.proway.godev.repository.EventRoomRepository;
 import com.proway.godev.repository.ParticipantRepository;
 
-
+@Component
 public class StageChangeUtil {
 
 	@Autowired

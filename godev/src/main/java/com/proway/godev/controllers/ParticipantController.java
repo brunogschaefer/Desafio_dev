@@ -23,7 +23,7 @@ import com.proway.godev.services.ParticipantServices;
 
 @RestController
 @RequestMapping(value = "/participants",
-				consumes = MediaType.APPLICATION_JSON_VALUE)
+				consumes = MediaType.ALL_VALUE)
 public class ParticipantController {
 	
 	@Autowired
