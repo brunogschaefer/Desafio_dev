@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 
 import com.proway.godev.entities.Participant;
 import com.proway.godev.enums.StagesEnum;
-import com.proway.godev.repository.CoffeeSpaceRepository;
 import com.proway.godev.repository.EventRoomRepository;
 import com.proway.godev.repository.ParticipantRepository;
 
@@ -18,13 +17,10 @@ public class StageChangeUtil {
 	private ParticipantRepository part;
 	@Autowired
 	private EventRoomRepository erRepo;
-	@Autowired
-	private CoffeeSpaceRepository csRepo;
 	
 	
 	public Boolean setStage (boolean set) {
 		long erCount = erRepo.count();
-		long csCount = csRepo.count();
 		List<Participant> listAll = part.findAll();
 		if (set == true) {			
 			listAll.forEach(e -> e.setStage(StagesEnum.STAGE_B));
@@ -32,7 +28,6 @@ public class StageChangeUtil {
 					filter(e -> (e.getId()) % 2 == 1).
 					forEach(ne -> {
 						ne.setRoom(erRepo.getOne((ne.getId() + erCount) % erCount + 1));
-						ne.setSpace(csRepo.getOne((ne.getId() + csCount) % csCount + 1));
 						part.save(ne);
 					});
 			return true;

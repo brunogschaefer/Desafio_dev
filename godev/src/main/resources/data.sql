@@ -4,8 +4,8 @@ INSERT INTO tb_eventroom (name, capacity) VALUES ('sala3', 2);
 INSERT INTO tb_eventroom (name, capacity) VALUES ('Sala Quatro', 2);
 
 
-INSERT INTO tb_coffeespace (name) VALUES ('espaço um');
-INSERT INTO tb_coffeespace (name) VALUES ('espaço 2');
+INSERT INTO tb_coffeespace (name) VALUES ('espaçoum');
+INSERT INTO tb_coffeespace (name) VALUES ('espaço2');
 
 
 INSERT INTO tb_participant (first_name, last_name, stage, eventroom_id, coffeespace_id) VALUES ('Amanda', 'Abacate', 0, 1, 1);

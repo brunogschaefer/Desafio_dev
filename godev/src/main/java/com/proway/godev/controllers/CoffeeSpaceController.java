@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.proway.godev.dto.CoffeeSpaceDTO;
+import com.proway.godev.exceptions.MaxLimitReachedException;
 import com.proway.godev.services.CoffeeSpaceServices;
 
 @RestController
@@ -39,7 +40,7 @@ public class CoffeeSpaceController {
 	
 	@PostMapping 
 	@ResponseStatus(HttpStatus.CREATED)
-	public ResponseEntity<CoffeeSpaceDTO> insert (@RequestBody CoffeeSpaceDTO dto) throws Exception {
+	public ResponseEntity<CoffeeSpaceDTO> insert (@RequestBody CoffeeSpaceDTO dto) throws MaxLimitReachedException {
 		dto = services.insert(dto);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{Id}").buildAndExpand(dto.getId()).toUri();
 		return ResponseEntity.created(uri).body(dto);
