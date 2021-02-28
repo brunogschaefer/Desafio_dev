@@ -22,18 +22,21 @@ public class StageChangeUtil {
 	private CoffeeSpaceRepository csRepo;
 	
 	
-	public List<Participant> setStage (boolean set) {
+	public Boolean setStage (boolean set) {
+		long erCount = erRepo.count();
+		long csCount = csRepo.count();
 		List<Participant> listAll = part.findAll();
 		if (set == true) {			
 			listAll.forEach(e -> e.setStage(StagesEnum.STAGE_B));
 			listAll.stream().
-					filter(e -> e.getId() % 2 == 1).
-					forEach(e -> {
-						e.setRoom(erRepo.findById((e.getId() + 1) % erRepo.count()).get());
-						e.setSpace(csRepo.findById((e.getId() + 1) % csRepo.count()).get());
-						part.save(e);
+					filter(e -> (e.getId()) % 2 == 1).
+					forEach(ne -> {
+						ne.setRoom(erRepo.getOne((ne.getId() + erCount) % erCount + 1));
+						ne.setSpace(csRepo.getOne((ne.getId() + csCount) % csCount + 1));
+						part.save(ne);
 					});
+			return true;
 		}
-		return listAll;
+		return false;
 	}
 }

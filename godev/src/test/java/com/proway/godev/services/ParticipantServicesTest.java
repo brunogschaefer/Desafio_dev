@@ -1,8 +1,10 @@
 package com.proway.godev.services;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
+import java.util.Optional;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,15 +17,15 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.TestPropertySource;
 
-import com.proway.godev.dto.CoffeeSpaceDTO;
-import com.proway.godev.dto.EventRoomDTO;
 import com.proway.godev.dto.ParticipantDTO;
 import com.proway.godev.entities.Participant;
-import com.proway.godev.enums.StagesEnum;
-import com.proway.godev.exceptions.MaxLimitReachedException;
+import com.proway.godev.exceptions.ParticipantAlreadyExistException;
 import com.proway.godev.repository.CoffeeSpaceRepository;
 import com.proway.godev.repository.EventRoomRepository;
 import com.proway.godev.repository.ParticipantRepository;
+import com.proway.godev.utils.ParticipantsDistributionUtil;
+
+import one.digitalinnovation.beerstock.exception.BeerAlreadyRegisteredException;
 
 @ExtendWith(MockitoExtension.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
@@ -34,6 +36,8 @@ public class ParticipantServicesTest {
 	private ParticipantRepository partRepo;	
 	@Mock
 	private Participant part;
+	@Mock
+	private ParticipantsDistributionUtil distribution;
 	@InjectMocks
 	private ParticipantServices partService;	
 	@Mock
@@ -45,27 +49,34 @@ public class ParticipantServicesTest {
 	@InjectMocks
 	private CoffeeSpaceServices csService;
 	
-	/*@ParameterizedTest
+	@ParameterizedTest
 	@MethodSource ("provideDefaultParameters")
-    void whenValidParticipantNameIsGivenThenReturnAParticipantWithRoomAndSpace(Long id, String firstName, String lastName, StagesEnum stage) throws MaxLimitReachedException {
-        // given
-        ParticipantDTO expectedParticipantDTO = new ParticipantDTO(id, firstName, lastName, StagesEnum.STAGE_A);
-        Participant expectedFoundParticipant = new Participant(id, firstName, lastName, StagesEnum.STAGE_A);
-        EventRoomDTO room = new EventRoomDTO(1L, "salaUm", 2);
-        CoffeeSpaceDTO space = new CoffeeSpaceDTO(1L, "espaçoUm");
-
-        // when
-        when(partService.findByName(expectedParticipantDTO)).thenReturn(expectedParticipantDTO);
-        when(erService.insert(room)).thenReturn(room);
-        when(csService.insert(space)).thenReturn(space);
-
-        // then
-        ParticipantDTO foundParticipantDTO = partService.findByName(expectedParticipantDTO);
-        assertThat(foundParticipantDTO).isEqualTo(expectedFoundParticipant);
-    }
+	public void itShouldReturnNewParticipant (String firstName, String lastName) throws NullPointerException, ParticipantAlreadyExistException {		
+		ParticipantDTO expected = new ParticipantDTO(null, firstName, lastName, null, null, null);
+		ParticipantDTO created = partService.insert(expected);
+		
+		//when(partRepo.save(created)).thenReturn(created);
+		
+		assertThat(expected.getFirstName()).isEqualTo(created.getFirstName());
+		assertThat(expected.getLastName()).isEqualTo(created.getLastName());
+		assertThat(expected.getSpace()).isNotEqualTo(created);
+	}
+	
+	@ParameterizedTest
+	@MethodSource ("provideDefaultParameters")
+	public void itShouldVerifyIfParticipantAlreadyExistsAndThrowException (String firstName, String lastName) throws NullPointerException, ParticipantAlreadyExistException {
+		ParticipantDTO expected = new ParticipantDTO(null, firstName, lastName, null, null, null);
+		ParticipantDTO duplicated = partService.insert(expected);
+		Participant getDupli = new Participant();
+		
+		when(partRepo.findByFirstName(expected.getFirstName())).thenReturn(partRepo.));
+		
+		assertThrows(ParticipantAlreadyExistException.class, () -> partService.insert(duplicated));
+	}
 	
 	private static Stream<Arguments> provideDefaultParameters () {
-		return Stream.of(Arguments.of(1L, "NomeUm", "SobreNomeUm", "STAGE_A"),
-				Arguments.of(2L, "NomeDois", "SobreNomeDois", "STAGE_A"));
-	}*/
+		return Stream.of(Arguments.of("Suzana", "Cabrita"),
+				Arguments.of("Carla", "Joana"));
+	}
+
 }

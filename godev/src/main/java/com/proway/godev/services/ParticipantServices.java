@@ -56,9 +56,10 @@ public class ParticipantServices {
 	}
 	
 	@Transactional
-	public List<ParticipantDTO> setStage(boolean set) {
-		List<Participant> setStageList = setStage.setStage(set);
-		return setStageList.stream().map(e -> new ParticipantDTO(e)).collect(Collectors.toList());
+	public Boolean setStage(String checkBoolean) {
+		Boolean checkedbool = checkIfItsTrueOrFalse(checkBoolean);
+		setStage.setStage(checkedbool);
+		return checkedbool;
 	}
 	
 	public void existsByFullName(String firstName, String lastName) throws ParticipantAlreadyExistException {
@@ -72,5 +73,13 @@ public class ParticipantServices {
 		if (amountOfRooms == null || amountOfSpaces == null) {
 			throw new NullPointerException("Nenhuma sala de evento e/ou espaço de café encontrado. Por favor, registre uma nova sala.");
 		}	
+	}
+	
+	public boolean checkIfItsTrueOrFalse (String set) {
+		if (set.equalsIgnoreCase("true")) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 }

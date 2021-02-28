@@ -11,6 +11,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.proway.godev.dto.ParticipantDTO;
 import com.proway.godev.enums.StagesEnum;
 
 @Entity
@@ -46,6 +47,14 @@ public class Participant {
 		this.stage = stage;
 		this.room = room;
 		this.space = space;
+	}
+	public Participant(ParticipantDTO dto) {
+		id = dto.getId();
+		firstName = dto.getFirstName();
+		lastName = dto.getLastName();
+		stage = dto.getStage();
+		room = dto.getRoom();
+		space = dto.getSpace();
 	}
 	
 	public Long getId() {

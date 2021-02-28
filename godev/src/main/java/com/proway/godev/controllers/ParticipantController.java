@@ -50,9 +50,10 @@ public class ParticipantController {
 		return ResponseEntity.created(uri).body(dto);
 	}
 	
-	@PutMapping("/setstage/{set}")
-	public ResponseEntity<List<ParticipantDTO>> setDelivered (@PathVariable boolean set){
-		List<ParticipantDTO> dto = services.setStage(set);
-		return ResponseEntity.ok().body(dto);
+	@PutMapping("/setstage/{setVariable}")
+	public ResponseEntity<Boolean> updateStages (@PathVariable String setVariable){
+		String setStage = setVariable;
+		Boolean checkbool = services.setStage(setStage);
+		return ResponseEntity.ok(checkbool);
 	}
 }
